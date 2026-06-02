@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Producto | PDP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-black: #0a0a0a;
+        --color-white: #f5f3ef;
+        --color-gray-100: #e8e6e0;
+        --color-gray-300: #bfbdb7;
+        --color-gray-500: #7a7872;
+        --font-display: "DM Sans", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      @layer base {
+        body {
+          @apply bg-white text-black font-body m-0 p-0;
+        }
+      }
+      .wf-box {
+        @apply bg-gray-100 border border-dashed border-gray-300 relative flex items-center justify-center overflow-hidden;
+      }
+      .wf-box::before {
+        content: "";
+        @apply w-[1px] h-full absolute bg-gray-300 left-1/2;
+      }
+      .wf-box::after {
+        content: "";
+        @apply h-[1px] w-full absolute bg-gray-300 top-1/2;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="flex items-center justify-between px-6 py-5 border-b-2 border-black sticky top-0 bg-white z-[100]"
+    >
+      <a
+        href="index.html"
+        class="js-brand-name font-display text-2xl font-black tracking-tighter uppercase"
+      ></a>
+      <a
+        href="./carrito.html"
+        class="text-xs font-bold tracking-widest uppercase cursor-pointer bg-black text-white px-4 py-2"
+        >Carrito (<span data-cart-count>0</span>)</a
+      >
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-73px)]">
+      <!-- GALERÍA MASIVA -->
+      <div class="border-r-2 border-black grid grid-cols-1 md:grid-cols-2">
+        <div
+          class="aspect-square wf-box !border-r-2 !border-black !border-b-2"
+        ></div>
+        <div class="aspect-square wf-box !border-b-2 !border-black"></div>
+        <div
+          class="aspect-square wf-box !border-r-2 !border-black md:!border-b-0 !border-b-2"
+        ></div>
+        <div class="aspect-square wf-box"></div>
+      </div>
+
+      <!-- STICKY INFO PANEL -->
+      <div class="p-8 md:p-12 sticky top-[73px] h-fit">
+        <div class="flex items-center gap-3 mb-2">
+          <span
+            class="font-mono text-xs font-bold tracking-widest uppercase text-gray-500"
+            data-product-brand
+            >Salomon</span
+          >
+          <span
+            class="bg-black text-white font-mono text-[9px] uppercase px-2 py-0.5 tracking-widest"
+            >Hype</span
+          >
+        </div>
+        <h1
+          class="font-display text-5xl font-black uppercase tracking-tighter leading-none mb-4"
+          data-product-name
+        >
+          XT-6 Advanced
+        </h1>
+        <div class="font-mono text-2xl font-bold mb-8" data-product-price>
+          $189.900
+        </div>
+
+        <!-- URGENCIA -->
+        <div
+          class="bg-red-50 text-red-600 border-2 border-red-600 p-3 font-mono text-xs font-bold uppercase flex items-center gap-2 mb-8"
+        >
+          <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+          Últimas 2 unidades en talla 9
+        </div>
+
+        <!-- SELECTOR DE TALLAS -->
+        <div class="mb-8">
+          <div class="flex justify-between items-end mb-3">
+            <span class="font-mono text-xs font-bold uppercase tracking-widest"
+              >Selecciona tu talla (US)</span
+            >
+            <span
+              class="font-mono text-[10px] uppercase underline cursor-pointer text-gray-500"
+              >Guía de tallas</span
+            >
+          </div>
+          <div class="grid grid-cols-4 gap-3" data-size-grid></div>
+        </div>
+
+        <!-- CTA ESTRATÉGICO -->
+        <button
+          class="w-full bg-black text-white py-5 text-sm font-bold tracking-widest uppercase hover:bg-gray-800 transition-colors mb-6"
+          data-add-to-cart
+        >
+          Añadir al Carrito
+        </button>
+
+        <p class="text-sm text-gray-500 leading-relaxed font-medium">
+          Envío gratis a todo Chile en pedidos sobre $100.000. Despacho
+          garantizado en 48hrs hábiles.
+        </p>
+      </div>
+    </div>
+    <script>
+      const BRAND_NAME = "SASSY SNKRS";
+
+      const formatPrice = (price) => `$${price.toLocaleString("es-CL")}`;
+
+      const injectBrandName = () => {
+        [".js-brand-name", ".js-brand-txt", ".js-brand-txt-inline"].forEach(
+          (selector) => {
+            document
+              .querySelectorAll(selector)
+              .forEach((el) => (el.textContent = BRAND_NAME));
+          },
+        );
+      };
+
+      const getCartCount = () => {
+        const stored = localStorage.getItem("carrito");
+        const cart = stored ? JSON.parse(stored) : [];
+        return cart.reduce((sum, item) => sum + (item.cantidad || 0), 0);
+      };
+
+      const updateCartCount = () => {
+        const count = getCartCount();
+        document
+          .querySelectorAll("[data-cart-count]")
+          .forEach((el) => (el.textContent = count));
+      };
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        injectBrandName();
+        updateCartCount();
+
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get("id");
+        if (!productId) return;
+
+        const response = await fetch("productos.json");
+        const products = await response.json();
+        const product = products.find((item) => item.id === productId);
+        if (!product) return;
+
+        const brandEl = document.querySelector("[data-product-brand]");
+        const nameEl = document.querySelector("[data-product-name]");
+        const priceEl = document.querySelector("[data-product-price]");
+        const sizeGrid = document.querySelector("[data-size-grid]");
+        const addToCartBtn = document.querySelector("[data-add-to-cart]");
+
+        if (brandEl) brandEl.textContent = product.brand;
+        if (nameEl) nameEl.textContent = product.name;
+        if (priceEl) priceEl.textContent = formatPrice(product.price);
+
+        let selectedSize = null;
+
+        if (sizeGrid) {
+          sizeGrid.innerHTML = "";
+          const sizes = [7, 8, 9, 10, 11, 12];
+          sizes.forEach((size) => {
+            const button = document.createElement("button");
+            const isAvailable = product.sizes.includes(size);
+
+            button.textContent = size;
+            button.className =
+              "border-2 border-gray-300 py-3 font-mono text-sm font-bold";
+
+            if (!isAvailable) {
+              button.className +=
+                " text-gray-300 line-through cursor-not-allowed";
+              button.disabled = true;
+            } else {
+              button.className += " hover:border-black";
+              button.addEventListener("click", () => {
+                selectedSize = size;
+                sizeGrid
+                  .querySelectorAll("button")
+                  .forEach((btn) =>
+                    btn.classList.remove(
+                      "bg-black",
+                      "text-white",
+                      "shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]",
+                    ),
+                  );
+                button.classList.add(
+                  "bg-black",
+                  "text-white",
+                  "shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]",
+                );
+              });
+            }
+
+            sizeGrid.appendChild(button);
+          });
+        }
+
+        if (addToCartBtn) {
+          addToCartBtn.addEventListener("click", () => {
+            if (!selectedSize) {
+              alert("Selecciona una talla para continuar.");
+              return;
+            }
+
+            const stored = localStorage.getItem("carrito");
+            const cart = stored ? JSON.parse(stored) : [];
+            cart.push({ id: product.id, talla: selectedSize, cantidad: 1 });
+            localStorage.setItem("carrito", JSON.stringify(cart));
+            updateCartCount();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

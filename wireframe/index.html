@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tienda | Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-black: #0a0a0a;
+        --color-white: #f5f3ef;
+        --color-gray-100: #e8e6e0;
+        --color-gray-300: #bfbdb7;
+        --color-gray-500: #7a7872;
+        --font-display:
+          "DM Sans", sans-serif; /* Cambiado a sans-serif pesado para look urbano */
+        --font-body: "DM Sans", sans-serif;
+        --font-mono: "DM Mono", monospace;
+        --animate-marquee: marquee 20s linear infinite;
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+      }
+      @layer base {
+        body {
+          @apply bg-white text-black font-body overflow-x-hidden m-0 p-0;
+        }
+      }
+      .wf-box {
+        @apply bg-gray-100 border border-dashed border-gray-300 relative flex items-center justify-center overflow-hidden;
+      }
+      .wf-box::before {
+        content: "";
+        @apply absolute w-[1px] h-full bg-gray-300 left-1/2;
+      }
+      .wf-box::after {
+        content: "";
+        @apply absolute h-[1px] w-full bg-gray-300 top-1/2;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV GLOBAL -->
+    <nav
+      class="flex items-center justify-between px-6 py-5 border-b-2 border-black sticky top-0 bg-white z-[100]"
+    >
+      <a
+        href="index.html"
+        class="js-brand-name font-display text-2xl font-black tracking-tighter uppercase"
+      ></a>
+      <ul class="hidden md:flex gap-8 list-none">
+        <li>
+          <a
+            href="./lanzamientos.html"
+            class="text-xs font-bold tracking-widest uppercase hover:text-gray-500"
+            >Lanzamientos</a
+          >
+        </li>
+        <li>
+          <a
+            href="./catalogo.html"
+            class="text-xs font-bold tracking-widest uppercase hover:text-gray-500"
+            >Marcas</a
+          >
+        </li>
+        <li>
+          <a
+            href="./catalogo.html"
+            class="text-xs font-bold tracking-widest uppercase hover:text-gray-500"
+            >Hombre</a
+          >
+        </li>
+        <li>
+          <a
+            href="./catalogo.html"
+            class="text-xs font-bold tracking-widest uppercase hover:text-gray-500"
+            >Mujer</a
+          >
+        </li>
+      </ul>
+      <div class="flex gap-6 items-center">
+        <a
+          href="./buscar.html"
+          class="text-xs font-bold tracking-widest uppercase cursor-pointer"
+          >Buscar</a
+        >
+        <a
+          href="./carrito.html"
+          class="text-xs font-bold tracking-widest uppercase cursor-pointer bg-black text-white px-4 py-2"
+          >CARRITO (<span data-cart-count>0</span>)</a
+        >
+      </div>
+    </nav>
+
+    <!-- FULL BLEED HERO -->
+    <section
+      class="relative h-[85vh] bg-black flex flex-col justify-end p-6 md:p-12 border-b-2 border-black"
+    >
+      <div
+        class="absolute inset-0 wf-box !border-none before:!hidden after:!hidden opacity-40"
+      ></div>
+      <div class="relative z-10 w-full md:w-2/3">
+        <span
+          class="bg-white text-black px-3 py-1 font-mono text-[10px] tracking-widest uppercase mb-4 inline-block font-bold"
+          >Drop Exclusivo</span
+        >
+        <h1
+          class="font-display text-6xl md:text-8xl font-black text-white leading-none tracking-tighter mb-6 uppercase"
+        >
+          Dominio<br />Absoluto.
+        </h1>
+        <div class="flex gap-4">
+          <button
+            class="bg-white text-black border-2 border-white px-8 py-4 text-xs font-bold tracking-widest uppercase hover:bg-transparent hover:text-white transition-colors"
+          >
+            Comprar Ahora
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div
+      class="border-b-2 border-black py-3 overflow-hidden whitespace-nowrap bg-white"
+    >
+      <div class="inline-flex gap-8 animate-marquee">
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ STOCK LIMITADO</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ ENVÍOS A TODO CHILE</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ 100% ORIGINALES</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ STOCK LIMITADO</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ ENVÍOS A TODO CHILE</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ 100% ORIGINALES</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ STOCK LIMITADO</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ ENVÍOS A TODO CHILE</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ 100% ORIGINALES</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ STOCK LIMITADO</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ ENVÍOS A TODO CHILE</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ 100% ORIGINALES</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ STOCK LIMITADO</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ ENVÍOS A TODO CHILE</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ 100% ORIGINALES</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ STOCK LIMITADO</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ ENVÍOS A TODO CHILE</span
+        >
+        <span class="font-mono text-xs font-bold uppercase tracking-widest"
+          >⚡ 100% ORIGINALES</span
+        >
+      </div>
+    </div>
+
+    <!-- ASYMMETRIC CATEGORIES -->
+    <section class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-black">
+      <div
+        class="md:col-span-2 border-r-2 border-black border-b-2 md:border-b-0 p-8 h-[500px] relative flex flex-col justify-between group cursor-pointer hover:bg-gray-100"
+      >
+        <div
+          class="font-display text-4xl font-black uppercase tracking-tighter"
+        >
+          Retro &<br />Classics
+        </div>
+        <div class="self-end wf-box w-1/2 aspect-square rounded-full"></div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="h-[250px] border-b-2 border-black p-6 relative flex flex-col justify-between group cursor-pointer hover:bg-gray-100"
+        >
+          <div
+            class="font-display text-2xl font-black uppercase tracking-tighter"
+          >
+            Running
+          </div>
+          <div class="self-end text-xs font-bold tracking-widest uppercase">
+            Explorar →
+          </div>
+        </div>
+        <div
+          class="h-[250px] p-6 relative flex flex-col justify-between group cursor-pointer hover:bg-gray-100"
+        >
+          <div
+            class="font-display text-2xl font-black uppercase tracking-tighter"
+          >
+            Skate
+          </div>
+          <div class="self-end text-xs font-bold tracking-widest uppercase">
+            Explorar →
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const BRAND_NAME = "SASSY SNKRS";
+
+      const getCartCount = () => {
+        const stored = localStorage.getItem("carrito");
+        const cart = stored ? JSON.parse(stored) : [];
+        return cart.reduce((sum, item) => sum + (item.cantidad || 0), 0);
+      };
+
+      const updateCartCount = () => {
+        const count = getCartCount();
+        document
+          .querySelectorAll("[data-cart-count]")
+          .forEach((el) => (el.textContent = count));
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        [".js-brand-name", ".js-brand-txt", ".js-brand-txt-inline"].forEach(
+          (selector) => {
+            document
+              .querySelectorAll(selector)
+              .forEach((el) => (el.textContent = BRAND_NAME));
+          },
+        );
+
+        updateCartCount();
+      });
+    </script>
+  </body>
+</html>

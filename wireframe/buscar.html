@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overlay de Búsqueda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-black: #0a0a0a;
+        --color-white: #f5f3ef;
+        --color-gray-100: #e8e6e0;
+        --color-gray-300: #bfbdb7;
+        --color-gray-500: #7a7872;
+        --font-display: "DM Sans", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      @layer base {
+        body {
+          @apply bg-white text-black font-body m-0 p-0 overflow-hidden;
+        }
+      }
+      .wf-box {
+        @apply bg-gray-100 border border-dashed border-gray-300 relative flex items-center justify-center overflow-hidden;
+      }
+      .wf-box::before {
+        content: "";
+        @apply w-[1px] h-full absolute bg-gray-300 left-1/2;
+      }
+      .wf-box::after {
+        content: "";
+        @apply h-[1px] w-full absolute bg-gray-300 top-1/2;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ========================================== -->
+    <!-- COMPONENTE OVERLAY DE BÚSQUEDA (El Wireframe real) -->
+    <!-- ========================================== -->
+    <div
+      class="fixed inset-0 z-50 flex flex-col bg-white/95 backdrop-blur-md transition-opacity duration-300"
+    >
+      <!-- HEADER DEL MODAL -->
+      <div
+        class="flex justify-between items-center px-6 md:px-12 py-6 border-b-2 border-black bg-transparent"
+      >
+        <span
+          class="font-mono text-xs font-bold tracking-widest uppercase text-gray-500"
+          >Búsqueda Rápida</span
+        >
+        <a
+          href="./index.html"
+          class="font-mono text-xs font-bold tracking-widest uppercase hover:text-gray-500 transition-colors flex items-center gap-2"
+        >
+          Cerrar <span class="text-xl leading-none">✕</span>
+        </a>
+      </div>
+
+      <!-- ÁREA DE INPUT GIGANTE -->
+      <div class="px-6 md:px-12 pt-12 pb-8">
+        <div
+          class="relative flex items-center border-b-4 border-black focus-within:border-gray-500 transition-colors"
+        >
+          <span class="text-4xl md:text-6xl absolute left-0 text-black">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+            >
+              <g
+                fill="none"
+                stroke="#000000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              >
+                <path d="m21 21l-4.34-4.34" />
+                <circle cx="11" cy="11" r="8" />
+              </g>
+            </svg>
+          </span>
+          <input
+            type="text"
+            class="w-full bg-transparent pl-16 md:pl-24 py-4 font-display text-4xl md:text-6xl font-black uppercase tracking-tighter placeholder:text-gray-300 focus:outline-none text-black"
+            placeholder="¿QUÉ BUSCAS?"
+            autofocus
+            data-search-input
+          />
+        </div>
+      </div>
+
+      <!-- CONTENIDO DE SUGERENCIAS Y RESULTADOS RÁPIDOS -->
+      <div class="flex-1 overflow-y-auto px-6 md:px-12 pb-12">
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 pt-8 border-t border-gray-300"
+        >
+          <!-- COLUMNA 1: TENDENCIAS -->
+          <div class="flex flex-col gap-6">
+            <h3
+              class="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-500"
+            >
+              Lo más buscado
+            </h3>
+            <div class="flex flex-wrap gap-3">
+              <button
+                class="border-2 border-black bg-white px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                data-search-chip
+              >
+                Salomon XT-6
+              </button>
+              <button
+                class="border-2 border-black bg-white px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                data-search-chip
+              >
+                Samba OG
+              </button>
+              <button
+                class="border-2 border-black bg-white px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                data-search-chip
+              >
+                Nike Dunk
+              </button>
+              <button
+                class="border-2 border-black bg-white px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                data-search-chip
+              >
+                New Balance 990
+              </button>
+              <button
+                class="border-2 border-black bg-white px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                data-search-chip
+              >
+                Gorpcore
+              </button>
+            </div>
+          </div>
+
+          <!-- COLUMNAS 2 y 3: RESULTADOS SUGERIDOS (Preview) -->
+          <div class="md:col-span-2">
+            <div class="flex justify-between items-baseline mb-6">
+              <h3
+                class="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-500"
+              >
+                Sugerencias (3)
+              </h3>
+              <button
+                class="font-mono text-[10px] font-bold tracking-widest uppercase underline hover:text-gray-500"
+              >
+                Ver todos los resultados
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6" data-search-results>
+              <!-- Item de búsqueda 1 -->
+              <div class="group cursor-pointer">
+                <div
+                  class="aspect-square wf-box border-2 border-black mb-3 group-hover:bg-gray-300 transition-colors"
+                ></div>
+                <div
+                  class="font-mono text-[9px] tracking-widest uppercase text-gray-500 mb-1"
+                >
+                  Salomon
+                </div>
+                <div class="font-bold text-sm uppercase leading-tight mb-2">
+                  XT-6 Advanced Black
+                </div>
+                <div class="font-mono text-xs">$189.900</div>
+              </div>
+
+              <!-- Item de búsqueda 2 -->
+              <div class="group cursor-pointer">
+                <div
+                  class="aspect-square wf-box border-2 border-black mb-3 group-hover:bg-gray-300 transition-colors"
+                ></div>
+                <div
+                  class="font-mono text-[9px] tracking-widest uppercase text-gray-500 mb-1"
+                >
+                  Adidas
+                </div>
+                <div class="font-bold text-sm uppercase leading-tight mb-2">
+                  Samba OG Black/White
+                </div>
+                <div class="font-mono text-xs">$119.900</div>
+              </div>
+
+              <!-- Item de búsqueda 3 -->
+              <div class="group cursor-pointer hidden sm:block">
+                <div
+                  class="aspect-square wf-box border-2 border-black mb-3 group-hover:bg-gray-300 transition-colors"
+                ></div>
+                <div
+                  class="font-mono text-[9px] tracking-widest uppercase text-gray-500 mb-1"
+                >
+                  Nike
+                </div>
+                <div class="font-bold text-sm uppercase leading-tight mb-2">
+                  Dunk Low Panda
+                </div>
+                <div class="font-mono text-xs">$129.900</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const BRAND_NAME = "SASSY SNKRS";
+
+      const formatPrice = (price) => `$${price.toLocaleString("es-CL")}`;
+
+      const injectBrandName = () => {
+        [".js-brand-name", ".js-brand-txt", ".js-brand-txt-inline"].forEach(
+          (selector) => {
+            document
+              .querySelectorAll(selector)
+              .forEach((el) => (el.textContent = BRAND_NAME));
+          },
+        );
+      };
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        injectBrandName();
+
+        const input = document.querySelector("[data-search-input]");
+        const resultsGrid = document.querySelector("[data-search-results]");
+        if (!input || !resultsGrid) return;
+
+        const response = await fetch("productos.json");
+        const products = await response.json();
+
+        const renderResults = (items) => {
+          resultsGrid.innerHTML = "";
+          items.forEach((product) => {
+            const card = document.createElement("div");
+            card.className = "group cursor-pointer";
+
+            card.innerHTML = `
+              <div class="aspect-square wf-box border-2 border-black mb-3 group-hover:bg-gray-300 transition-colors"></div>
+              <div class="font-mono text-[9px] tracking-widest uppercase text-gray-500 mb-1">${product.brand}</div>
+              <div class="font-bold text-sm uppercase leading-tight mb-2">${product.name}</div>
+              <div class="font-mono text-xs">${formatPrice(product.price)}</div>
+            `;
+
+            card.addEventListener("click", () => {
+              window.location.href = `./producto.html?id=${product.id}`;
+            });
+
+            resultsGrid.appendChild(card);
+          });
+        };
+
+        renderResults(products);
+
+        const normalize = (value) =>
+          value
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "");
+
+        const isFuzzyMatch = (query, text) => {
+          let qi = 0;
+          let ti = 0;
+          while (qi < query.length && ti < text.length) {
+            if (query[qi] === text[ti]) qi += 1;
+            ti += 1;
+          }
+          return qi === query.length;
+        };
+
+        const applySearch = (rawValue) => {
+          const rawQuery = rawValue.trim();
+          const query = normalize(rawQuery);
+          if (!query) {
+            renderResults(products);
+            return;
+          }
+
+          const tokens = query.split(/\s+/).filter(Boolean);
+
+          const filtered = products.filter((product) => {
+            const haystack = normalize(`${product.brand} ${product.name}`);
+            return tokens.every((token) => isFuzzyMatch(token, haystack));
+          });
+
+          renderResults(filtered);
+        };
+
+        input.addEventListener("input", (event) => {
+          applySearch(event.target.value);
+        });
+
+        document.querySelectorAll("[data-search-chip]").forEach((chip) => {
+          chip.addEventListener("click", () => {
+            input.value = chip.textContent.trim();
+            applySearch(input.value);
+            input.focus();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

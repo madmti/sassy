@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catálogo | PLP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-black: #0a0a0a;
+        --color-white: #f5f3ef;
+        --color-gray-100: #e8e6e0;
+        --color-gray-300: #bfbdb7;
+        --color-gray-500: #7a7872;
+        --font-display: "DM Sans", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      @layer base {
+        body {
+          @apply bg-white text-black font-body m-0 p-0;
+        }
+      }
+      .wf-box {
+        @apply bg-gray-100 border border-dashed border-gray-300 relative flex items-center justify-center overflow-hidden;
+      }
+      .wf-box::before {
+        content: "";
+        @apply absolute w-[1px] h-full bg-gray-300 left-1/2;
+      }
+      .wf-box::after {
+        content: "";
+        @apply absolute h-[1px] w-full bg-gray-300 top-1/2;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="flex items-center justify-between px-6 py-5 border-b-2 border-black sticky top-0 bg-white z-[100]"
+    >
+      <a
+        href="index.html"
+        class="js-brand-name font-display text-2xl font-black tracking-tighter uppercase"
+      ></a>
+      <div class="flex gap-6 items-center">
+          <a
+            href="./buscar.html"
+            class="text-xs font-bold tracking-widest uppercase cursor-pointer"
+            >Buscar</a
+          >
+          <a
+            href="./carrito.html"
+            class="text-xs font-bold tracking-widest uppercase cursor-pointer bg-black text-white px-4 py-2"
+            >CARRITO (<span data-cart-count>0</span>)</a
+          >
+      </div>
+    </nav>
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+      <!-- SIDEBAR FILTROS -->
+      <aside class="w-full md:w-64 border-r-2 border-black p-6 shrink-0">
+        <h3 class="font-display text-xl font-black uppercase mb-6">Filtros</h3>
+
+        <div class="mb-8">
+          <h4
+            class="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-500 mb-3"
+          >
+            Tallas (US)
+          </h4>
+          <div class="grid grid-cols-4 gap-2">
+            <button
+              class="border-2 border-gray-300 hover:border-black py-2 font-mono text-xs font-bold"
+              data-size-filter="7"
+            >
+              7
+            </button>
+            <button
+              class="border-2 border-gray-300 hover:border-black py-2 font-mono text-xs font-bold"
+              data-size-filter="8"
+            >
+              8
+            </button>
+            <button
+              class="border-2 border-gray-300 hover:border-black py-2 font-mono text-xs font-bold"
+              data-size-filter="9"
+            >
+              9
+            </button>
+            <button
+              class="border-2 border-gray-300 hover:border-black py-2 font-mono text-xs font-bold"
+              data-size-filter="10"
+            >
+              10
+            </button>
+            <button
+              class="border-2 border-gray-300 hover:border-black py-2 font-mono text-xs font-bold"
+              data-size-filter="11"
+            >
+              11
+            </button>
+            <button
+              class="border-2 border-gray-300 hover:border-black py-2 font-mono text-xs font-bold"
+              data-size-filter="12"
+            >
+              12
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <h4
+            class="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-500 mb-3"
+          >
+            Marcas
+          </h4>
+          <ul class="flex flex-col gap-2">
+            <li
+              class="text-sm font-bold flex justify-between cursor-pointer hover:underline"
+              data-brand-filter="Nike"
+            >
+              Nike <span class="text-gray-500" data-brand-count>0</span>
+            </li>
+            <li
+              class="text-sm font-bold flex justify-between cursor-pointer hover:underline"
+              data-brand-filter="Adidas"
+            >
+              Adidas <span class="text-gray-500" data-brand-count>0</span>
+            </li>
+            <li
+              class="text-sm font-bold flex justify-between cursor-pointer hover:underline"
+              data-brand-filter="Salomon"
+            >
+              Salomon <span class="text-gray-500" data-brand-count>0</span>
+            </li>
+            <li
+              class="text-sm font-bold flex justify-between cursor-pointer hover:underline"
+              data-brand-filter="New Balance"
+            >
+              New Balance <span class="text-gray-500" data-brand-count>0</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- GRID PRODUCTOS -->
+      <main class="flex-1">
+        <div
+          class="p-6 border-b-2 border-black flex justify-between items-center"
+        >
+          <h1
+            class="font-display text-4xl font-black uppercase tracking-tighter"
+          >
+            Sneakers
+          </h1>
+          <span class="font-mono text-xs text-gray-500">
+            <span data-results-count>0</span> Resultados
+          </span>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-3 js-product-grid">
+          <!-- Item 1 (Plantilla base, el resto se inyecta por JS) -->
+          <div
+            class="border-r-2 border-b-2 border-black group cursor-pointer relative"
+            data-product-template
+            data-product-card
+          >
+            <div class="aspect-square wf-box !border-none"></div>
+            <div class="p-4 bg-white">
+              <div
+                class="font-mono text-[10px] tracking-widest uppercase font-bold text-gray-500"
+                data-product-brand
+              >
+                Nike
+              </div>
+              <div
+                class="font-bold text-sm uppercase mt-1 leading-tight"
+                data-product-name
+              >
+                Dunk Low Retro
+              </div>
+              <div class="font-mono text-sm mt-3" data-product-price>
+                $119.990
+              </div>
+            </div>
+            <!-- Hover Overlay (Stock Check) -->
+            <div
+              class="absolute inset-0 bg-black/90 text-white p-6 flex flex-col justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <span
+                class="font-mono text-xs uppercase tracking-widest mb-4 text-center"
+                >Tallas Disponibles</span
+              >
+              <div
+                class="flex flex-wrap gap-2 justify-center"
+                data-product-sizes
+              >
+                <span class="border border-white px-2 py-1 font-mono text-xs"
+                  >8</span
+                >
+                <span
+                  class="border border-white px-2 py-1 font-mono text-xs bg-white text-black"
+                  >9</span
+                >
+                <span
+                  class="border border-white px-2 py-1 font-mono text-xs opacity-30 line-through"
+                  >10</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- Repetir Item... -->
+        </div>
+      </main>
+    </div>
+    <script>
+      const BRAND_NAME = "SASSY SNKRS";
+
+      const formatPrice = (price) => `$${price.toLocaleString("es-CL")}`;
+
+      const injectBrandName = () => {
+        [".js-brand-name", ".js-brand-txt", ".js-brand-txt-inline"].forEach(
+          (selector) => {
+            document
+              .querySelectorAll(selector)
+              .forEach((el) => (el.textContent = BRAND_NAME));
+          },
+        );
+      };
+
+      const getCartCount = () => {
+        const stored = localStorage.getItem("carrito");
+        const cart = stored ? JSON.parse(stored) : [];
+        return cart.reduce((sum, item) => sum + (item.cantidad || 0), 0);
+      };
+
+      const updateCartCount = () => {
+        const count = getCartCount();
+        document
+          .querySelectorAll("[data-cart-count]")
+          .forEach((el) => (el.textContent = count));
+      };
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        injectBrandName();
+        updateCartCount();
+
+        const productGrid = document.querySelector(".js-product-grid");
+        if (!productGrid) return;
+
+        const template = productGrid.querySelector("[data-product-template]");
+        if (!template) return;
+        template.remove();
+
+        const params = new URLSearchParams(window.location.search);
+        const category = params.get("categoria");
+
+        const response = await fetch("productos.json");
+        const products = await response.json();
+
+        const baseProducts = category
+          ? products.filter((product) =>
+              product.category.toLowerCase() === category.toLowerCase(),
+            )
+          : products;
+
+        const buildSizeBadge = (size) => {
+          const span = document.createElement("span");
+          span.textContent = size;
+          span.className = "border border-white px-2 py-1 font-mono text-xs";
+          return span;
+        };
+
+        const injectProduct = (product) => {
+          const card = template.cloneNode(true);
+          card.removeAttribute("data-product-template");
+          card.dataset.productId = product.id;
+
+          const brandEl = card.querySelector("[data-product-brand]");
+          const nameEl = card.querySelector("[data-product-name]");
+          const priceEl = card.querySelector("[data-product-price]");
+          const sizesWrap = card.querySelector("[data-product-sizes]");
+
+          if (brandEl) brandEl.textContent = product.brand;
+          if (nameEl) nameEl.textContent = product.name;
+          if (priceEl) priceEl.textContent = formatPrice(product.price);
+
+          if (sizesWrap) {
+            sizesWrap.innerHTML = "";
+            product.sizes.forEach((size) => {
+              sizesWrap.appendChild(buildSizeBadge(size));
+            });
+          }
+
+          card.addEventListener("click", () => {
+            window.location.href = `./producto.html?id=${product.id}`;
+          });
+
+          productGrid.appendChild(card);
+        };
+
+        const resultsCountEl = document.querySelector("[data-results-count]");
+        const sizeButtons = Array.from(
+          document.querySelectorAll("[data-size-filter]"),
+        );
+        const brandItems = Array.from(
+          document.querySelectorAll("[data-brand-filter]"),
+        );
+
+        const filters = {
+          size: null,
+          brand: null,
+        };
+
+        const updateBrandCounts = () => {
+          const counts = baseProducts.reduce((acc, product) => {
+            acc[product.brand] = (acc[product.brand] || 0) + 1;
+            return acc;
+          }, {});
+
+          brandItems.forEach((item) => {
+            const brand = item.dataset.brandFilter;
+            const countEl = item.querySelector("[data-brand-count]");
+            if (countEl) {
+              const value = counts[brand] || 0;
+              countEl.textContent = `(${value})`;
+            }
+          });
+        };
+
+        const renderProducts = (items) => {
+          productGrid.innerHTML = "";
+          items.forEach(injectProduct);
+          if (resultsCountEl) {
+            resultsCountEl.textContent = items.length.toString();
+          }
+        };
+
+        const applyFilters = () => {
+          let filtered = [...baseProducts];
+
+          if (filters.brand) {
+            filtered = filtered.filter(
+              (product) => product.brand === filters.brand,
+            );
+          }
+
+          if (filters.size) {
+            filtered = filtered.filter((product) =>
+              product.sizes.includes(filters.size),
+            );
+          }
+
+          renderProducts(filtered);
+        };
+
+        sizeButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const value = Number(button.dataset.sizeFilter);
+            const isActive = filters.size === value;
+            filters.size = isActive ? null : value;
+
+            sizeButtons.forEach((btn) => {
+              btn.classList.remove("border-black", "bg-black", "text-white");
+              btn.classList.add("border-gray-300");
+            });
+
+            if (!isActive) {
+              button.classList.add("border-black", "bg-black", "text-white");
+              button.classList.remove("border-gray-300");
+            }
+
+            applyFilters();
+          });
+        });
+
+        brandItems.forEach((item) => {
+          item.addEventListener("click", () => {
+            const brand = item.dataset.brandFilter;
+            const isActive = filters.brand === brand;
+            filters.brand = isActive ? null : brand;
+
+            brandItems.forEach((brandItem) => {
+              brandItem.classList.remove("underline");
+            });
+
+            if (!isActive) {
+              item.classList.add("underline");
+            }
+
+            applyFilters();
+          });
+        });
+
+        updateBrandCounts();
+        renderProducts(baseProducts);
+      });
+    </script>
+  </body>
+</html>

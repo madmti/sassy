@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-black: #0a0a0a;
+        --color-white: #f5f3ef;
+        --color-gray-100: #e8e6e0;
+        --color-gray-300: #bfbdb7;
+        --color-gray-500: #7a7872;
+        --font-display: "DM Sans", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      @layer base {
+        body {
+          @apply bg-gray-100 text-black font-body m-0 p-0 overflow-hidden;
+        }
+      }
+      .wf-box {
+        @apply bg-gray-100 border border-dashed border-gray-300 relative flex items-center justify-center overflow-hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- OVERLAY OSCURO -->
+    <div class="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"></div>
+
+    <!-- PANEL LATERAL DERECHO -->
+    <aside
+      class="fixed top-0 right-0 h-full w-full max-w-md bg-white border-l-4 border-black z-50 flex flex-col shadow-2xl transform transition-transform"
+    >
+      <!-- HEADER CART -->
+      <div
+        class="p-6 border-b-2 border-black flex justify-between items-center bg-gray-100"
+      >
+        <h2 class="font-display text-2xl font-black uppercase tracking-tighter">
+          Tu Carrito (<span data-cart-count>0</span>)
+        </h2>
+        <a href="./index.html" class="font-mono text-xl hover:text-gray-500">✕</a>
+      </div>
+
+      <!-- BARRA PROGRESO ENVÍO (Incentivo) -->
+      <div class="p-6 border-b-2 border-black text-center">
+        <p
+          class="font-mono text-[10px] font-bold uppercase tracking-widest mb-3 text-black"
+        >
+          Te faltan $10.100 para
+          <span class="bg-black text-white px-1">Envío Gratis</span>
+        </p>
+        <div class="w-full bg-gray-300 h-2">
+          <div class="bg-black h-full w-[85%]"></div>
+        </div>
+      </div>
+
+      <!-- ITEMS -->
+      <div class="flex-1 overflow-y-auto p-6" data-cart-items></div>
+
+      <!-- FOOTER CART (Ir a Checkout) -->
+      <div class="p-6 border-t-2 border-black bg-gray-100">
+        <div class="flex justify-between font-bold uppercase mb-4">
+          <span>Subtotal</span>
+          <span class="font-mono" data-subtotal>$0</span>
+        </div>
+        <p class="font-mono text-[10px] text-gray-500 mb-4 tracking-widest">
+          Los impuestos y el envío se calculan en el checkout.
+        </p>
+        <!-- CTA Principal hacia Shopify -->
+        <button
+          class="w-full bg-black text-white py-5 text-sm font-black tracking-widest uppercase hover:bg-gray-800 transition-colors shadow-[4px_4px_0px_0px_rgba(200,185,154,1)]"
+        >
+          Ir a Pagar →
+        </button>
+      </div>
+    </aside>
+
+    <script>
+      const BRAND_NAME = "SASSY SNKRS";
+
+      const formatPrice = (price) => `$${price.toLocaleString("es-CL")}`;
+
+      const injectBrandName = () => {
+        [".js-brand-name", ".js-brand-txt", ".js-brand-txt-inline"].forEach(
+          (selector) => {
+            document
+              .querySelectorAll(selector)
+              .forEach((el) => (el.textContent = BRAND_NAME));
+          },
+        );
+      };
+
+      const getCartCount = (items) =>
+        items.reduce((sum, item) => sum + (item.cantidad || 0), 0);
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        injectBrandName();
+
+        const itemsContainer = document.querySelector("[data-cart-items]");
+        const subtotalEl = document.querySelector("[data-subtotal]");
+        const countEl = document.querySelector("[data-cart-count]");
+        if (!itemsContainer || !subtotalEl || !countEl) return;
+
+        const stored = localStorage.getItem("carrito");
+        const cart = stored ? JSON.parse(stored) : [];
+
+        const response = await fetch("productos.json");
+        const products = await response.json();
+
+        const buildCartItem = (item, product, index) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "flex gap-4 mb-6";
+
+          const title = `${product.brand} ${product.name}`;
+          const itemPrice = product.price * item.cantidad;
+
+          wrapper.innerHTML = `
+            <div class="w-24 h-24 wf-box border-2 border-black shrink-0"></div>
+            <div class="flex flex-col justify-between flex-1">
+              <div>
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-sm uppercase leading-tight">${title}</h3>
+                  <button class="font-mono text-xs text-gray-500 underline" data-remove-item>Quitar</button>
+                </div>
+                <p class="font-mono text-xs text-gray-500 mt-1">Talla: ${item.talla} US</p>
+              </div>
+              <div class="flex justify-between items-end">
+                <div class="border-2 border-black flex items-center">
+                  <span class="font-mono text-sm px-2 font-bold">${item.cantidad}</span>
+                </div>
+                <span class="font-mono font-bold">${formatPrice(itemPrice)}</span>
+              </div>
+            </div>
+          `;
+
+          const removeBtn = wrapper.querySelector("[data-remove-item]");
+          if (removeBtn) {
+            removeBtn.addEventListener("click", () => {
+              const updated = cart.filter((_, idx) => idx !== index);
+              localStorage.setItem("carrito", JSON.stringify(updated));
+              window.location.reload();
+            });
+          }
+
+          return wrapper;
+        };
+
+        const renderCart = () => {
+          itemsContainer.innerHTML = "";
+          let subtotal = 0;
+
+          const resolvedItems = cart
+            .map((item, index) => {
+              const product = products.find((p) => p.id === item.id);
+              if (!product) return null;
+              return { item, product, index };
+            })
+            .filter(Boolean);
+
+          const totalCount = getCartCount(resolvedItems.map(({ item }) => item));
+          countEl.textContent = totalCount.toString();
+
+          resolvedItems.forEach(({ item, product, index }) => {
+            subtotal += product.price * item.cantidad;
+            itemsContainer.appendChild(buildCartItem(item, product, index));
+          });
+
+          subtotalEl.textContent = formatPrice(subtotal);
+        };
+
+        renderCart();
+      });
+    </script>
+  </body>
+</html>

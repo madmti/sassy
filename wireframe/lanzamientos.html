@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendario de Drops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-black: #0a0a0a;
+        --color-white: #f5f3ef;
+        --color-gray-100: #e8e6e0;
+        --color-gray-300: #bfbdb7;
+        --color-gray-500: #7a7872;
+        --font-display: "DM Sans", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      @layer base {
+        body {
+          @apply bg-white text-black font-body m-0 p-0;
+        }
+      }
+      .wf-box {
+        @apply bg-gray-100 border border-dashed border-gray-300 relative flex items-center justify-center overflow-hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="flex items-center justify-between px-6 py-5 border-b-2 border-black sticky top-0 bg-white z-[100]"
+    >
+      <a
+        href="index.html"
+        class="js-brand-name font-display text-2xl font-black tracking-tighter uppercase"
+      ></a>
+    </nav>
+
+    <header
+      class="p-6 md:p-12 border-b-2 border-black bg-black text-white text-center"
+    >
+      <h1
+        class="font-display text-5xl md:text-7xl font-black uppercase tracking-tighter"
+      >
+        Release<br />Calendar
+      </h1>
+    </header>
+
+    <main class="max-w-4xl mx-auto border-x-2 border-black min-h-screen" data-release-list>
+      <!-- DROP ITEM (Template) -->
+      <article
+        class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-black group"
+        data-release-template
+      >
+        <div
+          class="p-8 border-b-2 md:border-b-0 md:border-r-2 border-black flex flex-col justify-center items-center bg-gray-100"
+          data-release-date-box
+        >
+          <span
+            class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-2"
+            >Lanzamiento</span
+          >
+          <span class="font-display text-5xl font-black" data-release-day>
+            15
+          </span>
+          <span
+            class="font-mono text-sm font-bold uppercase tracking-widest"
+            data-release-month
+            >Junio 2026</span
+          >
+          <span
+            class="font-mono text-xs mt-2 bg-black text-white px-2 py-1"
+            data-release-time
+            >10:00 AM CLST</span
+          >
+        </div>
+        <div class="md:col-span-2 p-8 flex flex-col justify-center">
+          <div class="wf-box w-full h-48 mb-6"></div>
+          <h2
+            class="font-display text-3xl font-black uppercase tracking-tight mb-2"
+            data-release-title
+          >
+            Air Jordan 4 "Industrial Blue"
+          </h2>
+          <p class="font-mono text-sm text-gray-500 mb-6" data-release-price>
+            $219.990
+          </p>
+          <button
+            class="border-2 border-black bg-white text-black py-3 px-6 font-bold text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-colors w-fit"
+            data-release-cta
+          >
+            Notificarme
+          </button>
+        </div>
+      </article>
+    </main>
+    <script>
+      const BRAND_NAME = "SASSY SNKRS";
+
+      const formatPrice = (price) => `$${price.toLocaleString("es-CL")}`;
+
+      const formatDateParts = (dateString) => {
+        const date = new Date(`${dateString}T00:00:00`);
+        const day = date.getDate().toString();
+        const month = date.toLocaleDateString("es-CL", {
+          month: "long",
+          year: "numeric",
+        });
+        return { day, month };
+      };
+
+      const formatTime = (time, timezone) => {
+        if (!time) return null;
+        const [hours, minutes] = time.split(":");
+        const hourNumber = Number(hours);
+        const period = hourNumber >= 12 ? "PM" : "AM";
+        const displayHour = ((hourNumber + 11) % 12) + 1;
+        return `${displayHour}:${minutes} ${period} ${timezone}`;
+      };
+
+      const injectBrandName = () => {
+        [".js-brand-name", ".js-brand-txt", ".js-brand-txt-inline"].forEach(
+          (selector) => {
+            document
+              .querySelectorAll(selector)
+              .forEach((el) => (el.textContent = BRAND_NAME));
+          },
+        );
+      };
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        injectBrandName();
+
+        const list = document.querySelector("[data-release-list]");
+        const template = document.querySelector("[data-release-template]");
+        if (!list || !template) return;
+        template.remove();
+
+        const response = await fetch("lanzamientos.json");
+        const releases = await response.json();
+
+        const renderRelease = (release) => {
+          const card = template.cloneNode(true);
+          card.removeAttribute("data-release-template");
+
+          const dayEl = card.querySelector("[data-release-day]");
+          const monthEl = card.querySelector("[data-release-month]");
+          const timeEl = card.querySelector("[data-release-time]");
+          const titleEl = card.querySelector("[data-release-title]");
+          const priceEl = card.querySelector("[data-release-price]");
+          const ctaEl = card.querySelector("[data-release-cta]");
+          const dateBox = card.querySelector("[data-release-date-box]");
+
+          const { day, month } = formatDateParts(release.date);
+          if (dayEl) dayEl.textContent = day;
+          if (monthEl) monthEl.textContent = month;
+
+          const timeLabel = formatTime(release.time, release.timezone);
+          if (timeEl) {
+            if (timeLabel) {
+              timeEl.textContent = timeLabel;
+            } else {
+              timeEl.remove();
+            }
+          }
+
+          if (titleEl) {
+            titleEl.textContent = `${release.brand} ${release.name}`;
+          }
+
+          if (release.price && priceEl) {
+            priceEl.textContent = formatPrice(release.price);
+          } else if (priceEl) {
+            priceEl.remove();
+          }
+
+          if (release.status === "por_confirmar") {
+            card.classList.add("opacity-50");
+            if (ctaEl) {
+              ctaEl.textContent = "Por Confirmar";
+              ctaEl.className =
+                "font-mono text-xs font-bold bg-gray-300 text-black px-3 py-1 w-fit uppercase";
+            }
+            if (dateBox) {
+              dateBox.classList.remove("bg-gray-100");
+            }
+          } else if (ctaEl) {
+            ctaEl.textContent = "Notificarme";
+          }
+
+          list.appendChild(card);
+        };
+
+        releases.forEach(renderRelease);
+      });
+    </script>
+  </body>
+</html>

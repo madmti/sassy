@@ -1,0 +1,52 @@
+[
+  {
+    "id": "l1",
+    "brand": "Nike",
+    "name": "Air Jordan 4 Industrial Blue",
+    "price": 219990,
+    "date": "2026-06-15",
+    "time": "10:00",
+    "timezone": "CLST",
+    "status": "confirmado"
+  },
+  {
+    "id": "l2",
+    "brand": "ASICS",
+    "name": "Gel-Kayano 14",
+    "price": null,
+    "date": "2026-06-22",
+    "time": null,
+    "timezone": "CLST",
+    "status": "por_confirmar"
+  },
+  {
+    "id": "l3",
+    "brand": "Adidas",
+    "name": "Samba OG Premium",
+    "price": 129990,
+    "date": "2026-07-03",
+    "time": "12:00",
+    "timezone": "CLST",
+    "status": "confirmado"
+  },
+  {
+    "id": "l4",
+    "brand": "New Balance",
+    "name": "990v6 Grey Day",
+    "price": 229990,
+    "date": "2026-07-10",
+    "time": "09:00",
+    "timezone": "CLST",
+    "status": "confirmado"
+  },
+  {
+    "id": "l5",
+    "brand": "Salomon",
+    "name": "XT-6 Gore-Tex Release",
+    "price": 189990,
+    "date": "2026-07-18",
+    "time": "11:00",
+    "timezone": "CLST",
+    "status": "confirmado"
+  }
+]

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | Street Culture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-black: #0a0a0a;
+        --color-white: #f5f3ef;
+        --color-gray-100: #e8e6e0;
+        --color-gray-300: #bfbdb7;
+        --color-gray-500: #7a7872;
+        --font-display: "DM Sans", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      @layer base {
+        body {
+          @apply bg-white text-black font-body m-0 p-0;
+        }
+      }
+      .wf-box {
+        @apply bg-gray-100 border border-dashed border-gray-300 relative flex items-center justify-center overflow-hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="flex items-center justify-between px-6 py-5 border-b-2 border-black sticky top-0 bg-white z-[100]"
+    >
+      <div
+        class="js-brand-name font-display text-2xl font-black tracking-tighter uppercase"
+      ></div>
+    </nav>
+
+    <article class="max-w-3xl mx-auto pt-16 pb-24 px-6">
+      <header class="mb-12 border-b-4 border-black pb-8">
+        <span
+          class="font-mono text-xs font-bold uppercase tracking-widest bg-black text-white px-3 py-1 mb-6 inline-block"
+          >Cultura</span
+        >
+        <h1
+          class="font-display text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-6"
+        >
+          El Ascenso<br />del Gorpcore.
+        </h1>
+        <div
+          class="flex items-center gap-4 font-mono text-[10px] uppercase tracking-widest text-gray-500"
+        >
+          <span>Por SASSY SNKRS</span>
+          <span>•</span>
+          <span>12 Mayo, 2026</span>
+        </div>
+      </header>
+
+      <div
+        class="wf-box w-full aspect-[16/9] border-2 border-black mb-12"
+      ></div>
+
+      <div class="prose prose-lg font-medium text-black leading-relaxed mb-16">
+        <p class="mb-6 text-xl font-bold">
+          La montaña bajó a la ciudad y no tiene intenciones de irse. El estilo
+          que prioriza el rendimiento y la técnica sobre la estética tradicional
+          es ahora el rey de las calles de Santiago.
+        </p>
+        <p class="mb-6">
+          Marcas como Salomon y Arcteryx han logrado el crossover perfecto. Lo
+          que antes se veía exclusivamente en los senderos de los Andes, ahora
+          domina el pavimento.
+        </p>
+      </div>
+
+      <!-- SHOP THE LOOK (Cross-selling dentro del Blog) -->
+      <div class="bg-gray-100 border-2 border-black p-8">
+        <h3
+          class="font-display text-2xl font-black uppercase mb-6 tracking-tight"
+        >
+          Consigue el Look
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div
+            class="bg-white border-2 border-black p-4 flex gap-4 items-center group cursor-pointer"
+          >
+            <div class="wf-box w-20 h-20 shrink-0 border-black border-2"></div>
+            <div>
+              <div
+                class="font-bold text-sm uppercase leading-tight group-hover:underline"
+              >
+                Salomon XT-6
+              </div>
+              <div class="font-mono text-xs text-gray-500 mt-1">$189.900</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <script>
+      const BRAND_NAME = "SASSY SNKRS";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        [".js-brand-name", ".js-brand-txt", ".js-brand-txt-inline"].forEach(
+          (selector) => {
+            document
+              .querySelectorAll(selector)
+              .forEach((el) => (el.textContent = BRAND_NAME));
+          },
+        );
+      });
+    </script>
+  </body>
+</html>
